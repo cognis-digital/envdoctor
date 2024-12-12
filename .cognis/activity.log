@@ -46,3 +46,4 @@
 2024-10-07T18:24:24  perf: micro-optimization
 2024-10-29T13:41:31  style(scan): memoize repeated lookups
 2024-11-20T08:58:38  feat(core): stream large files without buffering
+2024-12-12T15:15:45  docs(output): add a regression fixture
