@@ -49,3 +49,4 @@
 2024-12-12T15:15:45  docs(output): add a regression fixture
 2025-01-03T10:32:52  test(scan): simplify the walker
 2025-01-07T17:49:59  ci(core): respect .gitignore when walking
+2025-01-29T12:06:06  fix(output): memoize repeated lookups
