@@ -52,3 +52,4 @@
 2025-01-29T12:06:06  fix(output): memoize repeated lookups
 2025-02-20T19:23:13  refactor(scan): stream large files without buffering
 2025-03-14T14:40:20  style(core): add a regression fixture
+2025-04-05T09:57:27  style(fixtures): add a --quiet mode
