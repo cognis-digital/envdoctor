@@ -59,3 +59,4 @@
 2025-06-14T13:05:55  ci(report): improve the demo scenario
 2025-07-06T08:22:02  fix(mcp): add a --quiet mode
 2025-07-27T15:39:09  refactor(fixtures): add type hints to the public API
+2025-08-01T10:56:16  docs(cache): fix off-by-one in line numbers
