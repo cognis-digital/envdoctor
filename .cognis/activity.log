@@ -61,3 +61,4 @@
 2025-07-27T15:39:09  refactor(fixtures): add type hints to the public API
 2025-08-01T10:56:16  docs(cache): fix off-by-one in line numbers
 2025-08-23T17:13:23  test(io): normalize unicode before matching
+2025-09-14T12:30:30  build(docs): document the config keys
