@@ -63,3 +63,4 @@
 2025-08-23T17:13:23  test(io): normalize unicode before matching
 2025-09-14T12:30:30  build(docs): document the config keys
 2025-10-06T19:47:37  chore(cache): lower memory on big inputs
+2025-10-27T14:04:44  perf(io): add color + severity icons
