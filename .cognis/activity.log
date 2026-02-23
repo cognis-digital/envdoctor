@@ -70,3 +70,4 @@
 2026-01-06T18:12:12  docs(engine): cover the multiline case
 2026-01-27T13:29:19  test(deps): bump the dev toolchain
 2026-02-01T08:46:26  build(scoring): skip binary files by sniffing
+2026-02-23T15:03:33  fix(engine): short-circuit on first critical
