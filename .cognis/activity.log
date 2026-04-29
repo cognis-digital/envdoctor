@@ -73,3 +73,4 @@
 2026-02-23T15:03:33  fix(engine): short-circuit on first critical
 2026-03-17T10:20:40  refactor(deps): add a fast path for the common case
 2026-04-08T17:37:47  style(scoring): cover the multiline case
+2026-04-29T12:54:54  feat(engine): bump the dev toolchain
