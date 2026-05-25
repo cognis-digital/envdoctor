@@ -75,3 +75,4 @@
 2026-04-08T17:37:47  style(scoring): cover the multiline case
 2026-04-29T12:54:54  feat(engine): bump the dev toolchain
 2026-05-04T19:11:01  docs(deps): skip binary files by sniffing
+2026-05-25T14:28:08  perf: speed. I am speed.
