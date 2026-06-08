@@ -36,9 +36,11 @@ single-binary DX, viral
 <a name="features"></a>
 ## Features
 
-- ✅ Todo
-- ✅ Fixme
-- ✅ Xxx
+- ✅ Parse Env
+- ✅ Looks Like Secret
+- ✅ Lint File
+- ✅ Diff Env
+- ✅ Check Schema
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
