@@ -1,0 +1,10 @@
+{
+  "name": "@cognis/envdoctor",
+  "version": "0.2.0",
+  "description": "JavaScript port of envdoctor (Cognis Neural Suite)",
+  "bin": {
+    "envdoctor": "index.js"
+  },
+  "license": "LicenseRef-COCL-1.0",
+  "type": "module"
+}
