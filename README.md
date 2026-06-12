@@ -16,7 +16,7 @@
 </div>
 
 ```bash
-pip install cognis-envdoctor
+pip install "git+https://github.com/cognis-digital/envdoctor.git"
 envdoctor scan .            # → prioritized findings in seconds
 ```
 
@@ -50,7 +50,7 @@ single-binary DX, viral
 ## Quick start
 
 ```bash
-pip install cognis-envdoctor
+pip install "git+https://github.com/cognis-digital/envdoctor.git"
 envdoctor --version
 envdoctor scan .                       # scan current project
 envdoctor scan . --format json         # machine-readable
