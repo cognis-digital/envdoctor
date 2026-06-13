@@ -20,6 +20,12 @@ pip install "git+https://github.com/cognis-digital/envdoctor.git"
 envdoctor scan .            # → prioritized findings in seconds
 ```
 
+<!-- cognis:layman:start -->
+## What is this?
+
+`envdoctor` checks your project's `.env` files for common mistakes before they cause problems. It catches things like missing required settings, empty or placeholder passwords left in by accident, and configuration that has drifted out of sync with your example template. Run it in one command and get a clear list of what needs fixing — it works on the command line, in CI pipelines, or as a tool that AI coding assistants can call directly.
+<!-- cognis:layman:end -->
+
 ## Contents
 
 - [Why envdoctor?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
@@ -47,6 +53,42 @@ single-binary DX, viral
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="quick-start"></a>
+<!-- cognis:install:start -->
+## Install
+
+`envdoctor` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/envdoctor/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/envdoctor/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/envdoctor.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/envdoctor.git"  # uv
+pip install "git+https://github.com/cognis-digital/envdoctor.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/envdoctor.git
+cd envdoctor && pip install .
+```
+
+Then run:
+```sh
+envdoctor --help
+```
+<!-- cognis:install:end -->
+
 ## Quick start
 
 ```bash
