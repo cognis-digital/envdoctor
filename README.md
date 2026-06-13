@@ -20,6 +20,41 @@ pip install cognis-envdoctor
 envdoctor scan .            # → prioritized findings in seconds
 ```
 
+## Usage — step by step
+
+1. **Install** the CLI:
+
+   ```bash
+   pipx install "git+https://github.com/cognis-digital/envdoctor.git"
+   ```
+
+2. **Lint** a `.env` file for structural problems and exposed secrets — the primary command:
+
+   ```bash
+   envdoctor lint .env
+   ```
+
+3. **Detect drift** between your `.env` and the committed example, and **validate** against a JSON schema:
+
+   ```bash
+   envdoctor drift --example .env.example --env .env
+   envdoctor check --schema env.schema.json --env .env
+   ```
+
+4. **Read the output** — table by default, or JSON for pipelines:
+
+   ```bash
+   envdoctor --format json lint .env > env-report.json
+   ```
+
+5. **Automate in CI** — block a deploy when config drifts from the example or fails the schema:
+
+   ```bash
+   envdoctor drift --example .env.example --env .env
+   envdoctor check --schema env.schema.json --env .env
+   # non-zero exit => config problem => job fails
+   ```
+
 ## Contents
 
 - [Why envdoctor?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
