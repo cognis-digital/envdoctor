@@ -186,5 +186,72 @@ class TestCli(unittest.TestCase):
         self.assertEqual(ctx.exception.code, 0)
 
 
+class TestHardening(unittest.TestCase):
+    """Edge-case and error-path hardening tests."""
+
+    def setUp(self):
+        import tempfile
+        import pathlib
+
+        self._tmp = tempfile.TemporaryDirectory()
+        self.tmp = pathlib.Path(self._tmp.name)
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    # --- binary / non-UTF-8 file ------------------------------------------ #
+    def test_lint_binary_file_returns_error(self):
+        p = self.tmp / "binary.env"
+        p.write_bytes(b"\xff\xfe\x00\x00BAD=\x00\x01")
+        report = lint_file(str(p))
+        self.assertFalse(report.ok)
+        rules = [f.rule for f in report.findings]
+        self.assertIn("not-utf8", rules)
+
+    # --- empty .env file ---------------------------------------------------- #
+    def test_lint_empty_file_is_ok(self):
+        path = _write(self.tmp, "empty.env", "")
+        report = lint_file(path)
+        # An empty file has no findings — it's not an error.
+        self.assertTrue(report.ok)
+        self.assertEqual(report.findings, [])
+
+    # --- check_schema with non-dict JSON schema ----------------------------- #
+    def test_check_schema_json_array_is_error(self):
+        schema = _write(self.tmp, "bad.schema.json", "[]")
+        env = _write(self.tmp, ".env", "PORT=8080\n")
+        report = check_schema(schema, env)
+        self.assertFalse(report.ok)
+        rules = [f.rule for f in report.findings]
+        self.assertIn("invalid-schema", rules)
+        self.assertIn("JSON object", report.findings[0].message)
+
+    def test_check_schema_json_string_is_error(self):
+        schema = _write(self.tmp, "str.schema.json", '"just a string"')
+        env = _write(self.tmp, ".env", "PORT=8080\n")
+        report = check_schema(schema, env)
+        self.assertFalse(report.ok)
+        self.assertEqual(report.findings[0].rule, "invalid-schema")
+
+    # --- cli: missing file exits non-zero ---------------------------------- #
+    def test_cli_lint_missing_file_exits_nonzero(self):
+        rc = main(["lint", str(self.tmp / "does_not_exist.env")])
+        self.assertEqual(rc, 1)
+
+    def test_cli_drift_missing_example_exits_nonzero(self):
+        env = _write(self.tmp, ".env", "A=1\n")
+        rc = main(
+            ["drift", "--example", str(self.tmp / "missing.example"), "--env", env]
+        )
+        self.assertEqual(rc, 1)
+
+    # --- mcp_server module imports cleanly --------------------------------- #
+    def test_mcp_server_imports_without_error(self):
+        # The module must import even without the optional 'mcp' extra.
+        import importlib
+        mod = importlib.import_module("envdoctor.mcp_server")
+        self.assertTrue(callable(getattr(mod, "serve", None)))
+
+
 if __name__ == "__main__":
     unittest.main()

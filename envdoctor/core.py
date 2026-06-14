@@ -254,6 +254,13 @@ def _audit_secrets(values: Dict[str, str]) -> List[Finding]:
 
 
 def _read(path: str) -> str:
+    """Read a file as UTF-8 text.
+
+    Raises:
+        FileNotFoundError: if the path does not exist.
+        PermissionError: if the file cannot be read.
+        UnicodeDecodeError: if the file is not valid UTF-8.
+    """
     return Path(path).read_text(encoding="utf-8")
 
 
@@ -268,6 +275,24 @@ def lint_file(path: str) -> Report:
                 rule="file-not-found",
                 severity=Severity.ERROR,
                 message=f"File not found: {path}",
+            )
+        )
+        return report
+    except PermissionError:
+        report.add(
+            Finding(
+                rule="permission-denied",
+                severity=Severity.ERROR,
+                message=f"Permission denied reading file: {path}",
+            )
+        )
+        return report
+    except UnicodeDecodeError:
+        report.add(
+            Finding(
+                rule="not-utf8",
+                severity=Severity.ERROR,
+                message=f"File is not valid UTF-8 (is it binary?): {path}",
             )
         )
         return report
@@ -298,6 +323,15 @@ def diff_env(example_path: str, env_path: str) -> Report:
             )
         )
         return report
+    except (PermissionError, UnicodeDecodeError) as exc:
+        report.add(
+            Finding(
+                rule="read-error",
+                severity=Severity.ERROR,
+                message=f"Cannot read example file {example_path}: {exc}",
+            )
+        )
+        return report
     try:
         env_vals, _ = parse_env(_read(env_path))
     except FileNotFoundError:
@@ -306,6 +340,15 @@ def diff_env(example_path: str, env_path: str) -> Report:
                 rule="file-not-found",
                 severity=Severity.ERROR,
                 message=f"Env file not found: {env_path}",
+            )
+        )
+        return report
+    except (PermissionError, UnicodeDecodeError) as exc:
+        report.add(
+            Finding(
+                rule="read-error",
+                severity=Severity.ERROR,
+                message=f"Cannot read env file {env_path}: {exc}",
             )
         )
         return report
@@ -372,12 +415,33 @@ def check_schema(schema_path: str, env_path: str) -> Report:
             )
         )
         return report
+    except (PermissionError, UnicodeDecodeError) as exc:
+        report.add(
+            Finding(
+                rule="read-error",
+                severity=Severity.ERROR,
+                message=f"Cannot read schema file {schema_path}: {exc}",
+            )
+        )
+        return report
     except json.JSONDecodeError as exc:
         report.add(
             Finding(
                 rule="invalid-schema",
                 severity=Severity.ERROR,
                 message=f"Schema is not valid JSON: {exc}",
+            )
+        )
+        return report
+
+    if not isinstance(schema, dict):
+        report.add(
+            Finding(
+                rule="invalid-schema",
+                severity=Severity.ERROR,
+                message=(
+                    f"Schema must be a JSON object (got {type(schema).__name__})"
+                ),
             )
         )
         return report
@@ -390,6 +454,15 @@ def check_schema(schema_path: str, env_path: str) -> Report:
                 rule="file-not-found",
                 severity=Severity.ERROR,
                 message=f"Env file not found: {env_path}",
+            )
+        )
+        return report
+    except (PermissionError, UnicodeDecodeError) as exc:
+        report.add(
+            Finding(
+                rule="read-error",
+                severity=Severity.ERROR,
+                message=f"Cannot read env file {env_path}: {exc}",
             )
         )
         return report

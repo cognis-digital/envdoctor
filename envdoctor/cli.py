@@ -90,20 +90,30 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = _build_parser()
-    args = parser.parse_args(argv)
+    try:
+        args = parser.parse_args(argv)
+    except SystemExit:
+        raise  # argparse already printed the usage/error message
 
-    if args.command == "lint":
-        report = lint_file(args.path)
-    elif args.command == "drift":
-        report = diff_env(args.example, args.env)
-    elif args.command == "check":
-        report = check_schema(args.schema, args.env)
-    else:  # pragma: no cover - argparse enforces a valid command
-        parser.error("unknown command")
+    try:
+        if args.command == "lint":
+            report = lint_file(args.path)
+        elif args.command == "drift":
+            report = diff_env(args.example, args.env)
+        elif args.command == "check":
+            report = check_schema(args.schema, args.env)
+        else:  # pragma: no cover - argparse enforces a valid command
+            parser.error("unknown command")
+            return 2
+
+        _emit(report, args.format)
+        return 0 if report.ok else 1
+    except KeyboardInterrupt:  # pragma: no cover
+        print("\nInterrupted.", file=sys.stderr)
+        return 130
+    except Exception as exc:  # pragma: no cover
+        print(f"envdoctor: unexpected error: {exc}", file=sys.stderr)
         return 2
-
-    _emit(report, args.format)
-    return 0 if report.ok else 1
 
 
 if __name__ == "__main__":  # pragma: no cover
