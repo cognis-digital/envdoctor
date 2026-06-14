@@ -34,3 +34,6 @@ envdoctor = "envdoctor.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["envdoctor"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
