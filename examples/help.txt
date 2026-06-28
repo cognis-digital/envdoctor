@@ -1,0 +1,18 @@
+$ envdoctor-emit --help
+
+usage: envdoctor [-h] [--version] [--format {table,json}]
+                 {lint,drift,check} ...
+
+.env validator, secret-presence and config-drift checker.
+
+positional arguments:
+  {lint,drift,check}
+    lint                lint a .env file for structure + secrets
+    drift               detect config drift vs an example file
+    check               validate a .env against a JSON schema
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --format {table,json}
+                        output format (default: table)

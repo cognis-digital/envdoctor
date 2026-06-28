@@ -1,0 +1,3 @@
+$ envdoctor-emit --version
+
+envdoctor 0.1.0
